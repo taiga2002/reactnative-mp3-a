@@ -28,17 +28,17 @@ export default function DetailScreen({ route, navigation }: Props) {
       <Bar />
       <ScrollView style={styles.container}>
         <View style={styles.view}>
-          <Image style={styles.image} source={{ uri: social.eventImage }} />
+          <Image style={styles.image} source={{ uri: social.image }} />
           <Text style={{ ...styles.h1, marginVertical: 10 }}>
-            {social.eventName}
+            {social.name}
           </Text>
           <Text style={{ ...styles.subtitle, marginBottom: 5 }}>
-            {social.eventLocation}
+            {social.location}
           </Text>
           <Text style={{ ...styles.subtitle, marginTop: 5, marginBottom: 20 }}>
-            {new Date(social.eventDate).toLocaleString()}
+            {new Date(social.date).toLocaleString()}
           </Text>
-          <Text style={styles.body}>{social.eventDescription}</Text>
+          <Text style={styles.body}>{social.description}</Text>
         </View>
       </ScrollView>
     </>

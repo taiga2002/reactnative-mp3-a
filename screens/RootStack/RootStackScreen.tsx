@@ -33,18 +33,24 @@ export function RootStackScreen() {
   const options = { headerShown: false };
   return (
     <NavigationContainer>
-      <RootStack.Navigator mode="modal" initialRouteName="Main">
+      
+      <RootStack.Navigator initialRouteName="Main">
+        
         <RootStack.Screen
           name="Main"
           component={MainStackScreen}
           options={options}
         />
+      
+        <RootStack.Group screenOptions={{ presentation: 'modal' }}>
         <RootStack.Screen
           name="NewSocialScreen"
           options={options}
           component={NewSocialScreen}
         />
+        </RootStack.Group>
       </RootStack.Navigator>
+
     </NavigationContainer>
   );
 }

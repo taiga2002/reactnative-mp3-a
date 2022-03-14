@@ -23,4 +23,10 @@ export const AppStyles = StyleSheet.create({
   body: {
     fontSize: 14,
   },
+  margin_between: {
+    marginVertical:10,
+  },
+  background: {
+    backgroundColor: COLOR_PRIMARY,
+  }
 });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, Text } from "react-native";
 import { Appbar, Card } from "react-native-paper";
-import firebase from "firebase/app";
+import firebase from 'firebase/compat/app';
 import "firebase/firestore";
 import { SocialModel } from "../../../../models/social.js";
 import { styles } from "./FeedScreen.styles";
@@ -57,14 +57,18 @@ export default function FeedScreen({ navigation }: Props) {
 
   const NavigationBar = () => {
     // TODO: Return an AppBar, with a title & a Plus Action Item that goes to the NewSocialScreen.
-    return null;
+    return <Appbar.Header>
+        <Appbar.Content title="Socials" />
+        <Appbar.Action onPress={() => navigation.navigate("NewSocialScreen")} icon = "plus"/>
+      </Appbar.Header>
   };
 
   return (
     <>
-      {/* Embed your NavigationBar here. */}
+      {NavigationBar()}
       <View style={styles.container}>
         {/* Return a FlatList here. You'll need to use your renderItem method. */}
+        <Text>Heyyy</Text>
       </View>
     </>
   );
