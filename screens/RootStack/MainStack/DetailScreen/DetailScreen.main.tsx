@@ -29,6 +29,7 @@ export default function DetailScreen({ route, navigation }: Props) {
       <ScrollView style={styles.container}>
         <View style={styles.view}>
           <Image style={styles.image} source={{ uri: social.image }} />
+          
           <Text style={{ ...styles.h1, marginVertical: 10 }}>
             {social.name}
           </Text>

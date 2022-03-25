@@ -1,12 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { View, FlatList, Text } from "react-native";
-import { Appbar, Card } from "react-native-paper";
+import { Appbar, Card, Title } from "react-native-paper";
 import firebase from 'firebase/compat/app';
 import "firebase/firestore";
 import { SocialModel } from "../../../../models/social.js";
 import { styles } from "./FeedScreen.styles";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { MainStackParamList } from "../MainStackScreen.js";
+const DATA = [{id: "158695849385495",
+  date: "12/28/2020, 8:00:00 PM",
+  description: "fun fun event",
+  image: "https://picsum.photos/700",
+  location: "Niky's Apartment",
+  name: "Grape Juice & Cheese Night",},
+  {id: "3847475758585",
+  date: "12/28/2020, 8:00:00 PM",
+  description: "fun fun event",
+  image: "https://picsum.photos/700",
+  location: "Niky's Apartment",
+  name: "Grape Juice & Cheese Night",
+  }
+]
 
 /* HOW TYPESCRIPT WORKS WITH PROPS:
 
@@ -51,8 +65,14 @@ export default function FeedScreen({ navigation }: Props) {
     // TODO: Return a Card corresponding to the social object passed in
     // to this function. On tapping this card, navigate to DetailScreen
     // and pass this social.
-
-    return null;
+    return (
+      <Card onPress={()=>navigation.navigate("DetailScreen", {social: item})} style = {{marginTop: 20}}>
+        <Card.Cover source={{ uri: item.image }} />
+        <Card.Content>
+          <Card.Title title={item.name} subtitle={`${item.location} ・ ${item.date} `}/>
+        </Card.Content>
+      </Card>
+    )
   };
 
   const NavigationBar = () => {
@@ -62,13 +82,17 @@ export default function FeedScreen({ navigation }: Props) {
         <Appbar.Action onPress={() => navigation.navigate("NewSocialScreen")} icon = "plus"/>
       </Appbar.Header>
   };
-
+  //Taiga- As I failed to debug the firebase for the goggle firebase cloud, I just used the fake data here for the social to implement the front end. 
+  //If I manage to debug that, I'd try to implement retriving data from firebase and use that instead of fake DATA here.
   return (
     <>
       {NavigationBar()}
-      <View style={styles.container}>
-        {/* Return a FlatList here. You'll need to use your renderItem method. */}
-        <Text>Heyyy</Text>
+      <View style={[styles.container, styles.margin]}>
+        <FlatList
+        data={DATA}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
       </View>
     </>
   );

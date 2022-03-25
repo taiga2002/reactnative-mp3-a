@@ -6,7 +6,7 @@ import { getFileObjectAsync, uuid } from "../../../Utils";
 // See https://github.com/mmazzarolo/react-native-modal-datetime-picker
 // Most of the date picker code is directly sourced from the example.
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import { getApp } from "firebase/app";
 // See https://docs.expo.io/versions/latest/sdk/imagepicker/
 // Most of the image picker code is directly sourced from the example.
 import * as ImagePicker from "expo-image-picker";
@@ -157,45 +157,35 @@ export default function NewSocialScreen({ navigation }: Props) {
       //     Otherwise, show an error.
       
         setLoading(true);
-        console.log("Jokes")
-        console.log(image);
-        const object = await getFileObjectAsync(image);
-        console.log('Hello')
-        // const storage = getStorage();
-        // const uuidNum:string = uuid();
-        // const storageRef = ref(storage,  uuidNum + ".jpg");
+        console.log("1")
+        const response = await fetch(image);
+        const object = await response.blob();
+        console.log("2")
         const db = getFirestore();
-        console.log("Hi");
-        //const result = await storage.ref().child(uuid() + ".jpg").put(object as Blob);
-        // uploadBytes(storageRef, object).then((snapshot) => {
-        //   console.log('Uploaded a blob or file!');
-        //   getDownloadURL(storageRef).then(async (url) => {
-            // const docs: SocialModel = {
-            //   name: name,
-            //   date: date,
-            //   location: location,
-            //   description: description,
-            //   image: uuidNum + ".jpg",
-            // };
-            // await setDoc(doc(db, "socials", uuid()), docs);
-            // setLoading(false);
-            // navigation.navigate("Main");
-            // console.log("Finished social creation.");
-            
-        //   })
-        // })
-        const docs: SocialModel = {
+        console.log("3")
+        const storage = getStorage();
+        console.log("4")
+        const storageRef = ref(storage,  uuid() + ".jpg");
+        console.log("5");
+        uploadBytes(storageRef, object as Blob)
+        .then((snapshot) => {
+          console.log('6');
+          getDownloadURL(storageRef).then(async (url) => {
+            const docs: SocialModel = {
               name: name,
               date: date,
               location: location,
               description: description,
-              image: uuidNum + ".jpg",
+              image: url,
             };
             await setDoc(doc(db, "socials", uuid()), docs);
             setLoading(false);
             navigation.navigate("Main");
-            console.log("Finished social creation.");
-        
+            console.log("Finished");
+            
+          })
+        })
+    
       } catch (e) {
       setLoading(false);
       console.log("Error while writing social:", e);
@@ -217,7 +207,7 @@ export default function NewSocialScreen({ navigation }: Props) {
       <View style={{ ...styles.container, padding: 20 }}>
           <TextInput
         style ={{backgroundColor:null}}
-        label="Even Name"
+        label="Event Name"
         value={name}
         onChangeText={name => setName(name)}
       />
@@ -229,7 +219,7 @@ export default function NewSocialScreen({ navigation }: Props) {
       />
           <TextInput
         style ={{backgroundColor:null}}
-        label="Even Description"
+        label="Event Description"
         value={description}
         onChangeText={description => setDescription(description)}
       />

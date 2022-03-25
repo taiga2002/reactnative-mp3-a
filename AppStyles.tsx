@@ -28,5 +28,10 @@ export const AppStyles = StyleSheet.create({
   },
   background: {
     backgroundColor: COLOR_PRIMARY,
+  },
+  margin: {
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor:null,
   }
 });
