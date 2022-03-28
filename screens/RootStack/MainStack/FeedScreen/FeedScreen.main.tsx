@@ -7,20 +7,23 @@ import { SocialModel } from "../../../../models/social.js";
 import { styles } from "./FeedScreen.styles";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { MainStackParamList } from "../MainStackScreen.js";
-const DATA = [{id: "158695849385495",
-  date: "12/28/2020, 8:00:00 PM",
-  description: "fun fun event",
-  image: "https://picsum.photos/700",
-  location: "Niky's Apartment",
-  name: "Grape Juice & Cheese Night",},
-  {id: "3847475758585",
-  date: "12/28/2020, 8:00:00 PM",
-  description: "fun fun event",
-  image: "https://picsum.photos/700",
-  location: "Niky's Apartment",
-  name: "Grape Juice & Cheese Night",
-  }
-]
+import {getFirestore, collection, getDocs} from "firebase/firestore";
+
+
+// const DATA = [{id: "158695849385495",
+//   date: "12/28/2020, 8:00:00 PM",
+//   description: "fun fun event",
+//   image: "https://picsum.photos/700",
+//   location: "Niky's Apartment",
+//   name: "Grape Juice & Cheese Night",},
+//   {id: "3847475758585",
+//   date: "12/28/2020, 8:00:00 PM",
+//   description: "fun fun event",
+//   image: "https://picsum.photos/700",
+//   location: "Niky's Apartment",
+//   name: "Grape Juice & Cheese Night",
+//   }
+// ]
 
 /* HOW TYPESCRIPT WORKS WITH PROPS:
 
@@ -60,6 +63,22 @@ export default function FeedScreen({ navigation }: Props) {
       4. It's probably wise to make sure you can create new socials before trying to 
           load socials on this screen.
   */
+ const [data, setData] = useState([]);
+
+useEffect(() => {
+  //init services
+  const db = getFirestore();
+  //collection ref
+  const colRef = collection(db, "socials");
+  //get collection data
+  getDocs(colRef).then((snapshot) => {
+  let books = [];
+  snapshot.docs.forEach((doc) => {
+    books.push({id:doc.id, ...doc.data()})
+  })
+  setData(books);
+})
+  }, [data]);
 
   const renderItem = ({ item }: { item: SocialModel }) => {
     // TODO: Return a Card corresponding to the social object passed in
@@ -88,11 +107,11 @@ export default function FeedScreen({ navigation }: Props) {
     <>
       {NavigationBar()}
       <View style={[styles.container, styles.margin]}>
-        <FlatList
-        data={DATA}
+        {data != [] ? <FlatList
+        data={data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-      />
+      /> : <></>}
       </View>
     </>
   );

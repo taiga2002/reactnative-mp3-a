@@ -16,7 +16,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import "firebase/firestore"
 import {doc, getFirestore, setDoc} from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage"
 import { SocialModel } from "../../../models/social";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../RootStackScreen";
@@ -167,7 +167,7 @@ export default function NewSocialScreen({ navigation }: Props) {
         console.log("4")
         const storageRef = ref(storage,  uuid() + ".jpg");
         console.log("5");
-        uploadBytes(storageRef, object as Blob)
+        uploadBytesResumable(storageRef, object as Blob)
         .then((snapshot) => {
           console.log('6');
           getDownloadURL(storageRef).then(async (url) => {

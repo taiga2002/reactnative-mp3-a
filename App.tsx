@@ -4,6 +4,7 @@ import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import { COLOR_ACCENT, COLOR_PRIMARY } from "./AppStyles";
 import { initializeApp, getApps } from "firebase/app";
 import { EntryStackScreen } from "./screens/EntryStackScreen";
+import { getFirestore } from "firebase/firestore";
 
 // TODO: Make sure to create a file called "keys.json" in your project
 // directory & add your Firebase configuration keys to that file.
@@ -14,7 +15,7 @@ const firebaseConfig = require("./keys.json");
 if (getApps().length == 0) {
   initializeApp(firebaseConfig);
 }
-
+export const db = getFirestore();
 // Theme Object for React Native Paper
 const theme = {
   ...DefaultTheme,
